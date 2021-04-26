@@ -13,7 +13,7 @@
   <div class="tbl-content">
     <table>
       <tbody>
-        <tr class="test">
+        <tr class="test" v-on:click="ShowExam(course)">
           <td>109</td>
           <td>期末考</td>
           <td>黃思皓</td>
@@ -32,9 +32,24 @@
 </template>
 
 <script>
-export default{
-  props: ["course"],
-}
+  import CourseService from "../services/CourseService"
+  export default{
+    props: ["course"],
+    data() {
+      return {
+        ClickedCourse: this.course
+      }
+    },
+    methods:{
+      async ShowExam(course){
+        const response = await CourseService.course({
+          courses: course
+        })
+        console.log(response.data)
+      }
+    }
+
+  }
 </script>
 
 <style scoped>
