@@ -9,16 +9,18 @@ const app = express()
 app.use(morgan("combined"))
 app.use(bodyParser.json())
 app.use(cors())
+app.use(express.static("data"))
 
 app.post("/coursetable", (req, res) => {
     res.send({
-        message: `this is your courselist ${req.body.courses}`
+        message: req.protocol + '://' + req.get('host')
     })
 })
 
-app.get("/download", (req,res) => {
-    const file = "./data/CCBDA (MIDTERM)_sample.pdf"
-    res.download(file)
-})
+app.post("/data", (req,res) => {
+    res.send({
+        message: req.protocol + '://' + req.get('host')
+    })
+})  
 
 app.listen(process.env.PORT || 8081)

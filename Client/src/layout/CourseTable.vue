@@ -13,7 +13,7 @@
   <div class="tbl-content">
     <table>
       <tbody>
-        <tr class="test" v-on:click="ShowExam(course)">
+        <tr class="test" v-on:click="Download(course)">
           <td>109</td>
           <td>期末考</td>
           <td>黃思皓</td>
@@ -32,7 +32,8 @@
 </template>
 
 <script>
-  import CourseService from "../services/CourseService"
+
+  import DownloadService from "../services/DownloadService"
   export default{
     props: ["course"],
     data() {
@@ -41,12 +42,10 @@
       }
     },
     methods:{
-      async ShowExam(course){
-        const response = await CourseService.course({
-          courses: course
-        })
-        console.log(response.data)
+      async Download(course){
+        await DownloadService.download(course)
       }
+
     }
 
   }
