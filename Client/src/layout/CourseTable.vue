@@ -17,13 +17,7 @@
           <td>109</td>
           <td>期末考</td>
           <td>黃思皓</td>
-          <td>{{course}}.jpg</td>
-        </tr>
-        <tr class="test">
-          <td>108</td>
-          <td>期中考</td>
-          <td>{{course}}</td>
-          <td>{{course}}.jpg</td>
+          <td>{{course}}.pdf</td>
         </tr>
       </tbody>
     </table>
