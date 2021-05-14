@@ -4,7 +4,7 @@ const cors = require("cors")
 const morgan = require("morgan")
 
 // Import paths self-defined
-const dbRouter = require("./db")
+const dbRouter = require("./routes")
 
 // Use packages in app
 const app = express()

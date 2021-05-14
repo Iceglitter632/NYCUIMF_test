@@ -13,11 +13,14 @@
   <div class="tbl-content">
     <table>
       <tbody>
-        <tr class="test" v-on:click="Download(course)">
-          <td>109</td>
-          <td>期末考</td>
-          <td>黃思皓</td>
-          <td>{{course}}.pdf</td>
+        <tr v-for="c in this.courses" 
+          v-bind:key="c.id"
+          class="test"
+          v-on:click="Download(c.id)">
+          <td>{{c.year}}</td>
+          <td>{{c.type}}</td>
+          <td>{{c.teacher}}</td>
+          <td>{{c.filename}}</td>
         </tr>
       </tbody>
     </table>
@@ -26,23 +29,30 @@
 </template>
 
 <script>
-
-  import DownloadService from "../services/DownloadService"
-  export default{
-    props: ["course"],
-    data() {
-      return {
-        ClickedCourse: this.course
-      }
-    },
-    methods:{
-      async Download(course){
-        await DownloadService.download(course)
-      }
-
+import DownloadService from "../services/DownloadService"
+import CourseService from "../services/CourseService"
+export default{
+  props: ["course"],
+  mounted() {
+    this.ShowExam();
+    console.log("mounted");
+  },
+  data() {
+    return {
+      ClickedCourse: this.course,
+      courses: []
     }
-
+  },
+  methods:{
+    async Download(courseid){
+      await DownloadService.download(courseid);
+    },
+    async ShowExam(c){
+      const response = await CourseService.course(c);
+      this.courses = response.data;
+    }
   }
+}
 </script>
 
 <style scoped>

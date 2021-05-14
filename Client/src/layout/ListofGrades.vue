@@ -39,10 +39,7 @@ export default{
     },
     methods: {
         returnItem({tab, choosen}){
-            // alert(tab);
-            // alert(professor);
             this.$emit("clicked",{"tab":tab, "choosen":choosen});
-            // alert(value);\
         }
     }
 }

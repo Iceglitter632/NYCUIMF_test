@@ -1,15 +1,26 @@
-const mysql = require("mysql");
+const mysql = require("mysql2");
 
-mysql.createPool({
+const pool = mysql.createPool({
     connectionLimit: 10,
-    password:  "nctuimf",
+    password:  "imfnctu",
     user: "imf",
     host: "localhost",
+    database: "imfexams",
     port: "3306"
 });
 
+
 let db = {};
 
-db.all() = () => {
-
+db.all = () => {
+    return new Promise((resolve, reject)=>{
+        pool.query(`SELECT * FROM courses`, (err, results) => {
+            if(err){
+                return reject(err);
+            }
+            return resolve(results);
+        });
+    });
 };
+
+module.exports = db;
