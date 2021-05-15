@@ -12,9 +12,11 @@ const pool = mysql.createPool({
 
 let db = {};
 
-db.all = () => {
+db.all = (request) => {
+    console.log(request);
     return new Promise((resolve, reject)=>{
-        pool.query(`SELECT * FROM courses`, (err, results) => {
+        pool.query(`SELECT * FROM courses WHERE course = "微積分(甲)"`,
+        (err, results) => {
             if(err){
                 return reject(err);
             }

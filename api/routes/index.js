@@ -6,7 +6,7 @@ const router = express.Router();
 router.get("/", async (request, response, next) => {
 
     try{
-        let results = await db.all();
+        let results = await db.all(request);
         response.json(results);
     } catch(e) {
         console.log(e);

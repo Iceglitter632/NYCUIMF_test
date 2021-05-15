@@ -29,17 +29,17 @@
 </template>
 
 <script>
-import DownloadService from "../services/DownloadService"
-import CourseService from "../services/CourseService"
+
+import DownloadService from "../services/DownloadService";
+import CourseService from "../services/CourseService";
+
 export default{
   props: ["course"],
   mounted() {
-    this.ShowExam();
-    console.log("mounted");
+    this.ShowExamTable();
   },
   data() {
     return {
-      ClickedCourse: this.course,
       courses: []
     }
   },
@@ -47,12 +47,13 @@ export default{
     async Download(courseid){
       await DownloadService.download(courseid);
     },
-    async ShowExam(c){
-      const response = await CourseService.course(c);
+    async ShowExamTable(){
+      var course = this.course;
+      const response = await CourseService.course({params:{course}});
       this.courses = response.data;
     }
   }
-}
+} 
 </script>
 
 <style scoped>
