@@ -17,27 +17,31 @@ app.unsubscribe(express.urlencoded({extended:false}))
 
 
 //create coursetable
-app.post("/coursetable", (request, response) => {
+app.post("/coursetable", (req, res) => {
     res.send({
-        message: request.protocol + '://' + request.get('host')
+        message: req.protocol + '://' + req.get('host')
     })
 })
 
 //upload new file to sql
-app.post("/data", (request, response) => {
+app.post("/data", (req, res) => {
     res.send({
-        message: request.protocol + '://' + request.get('host')
+        message: req.protocol + '://' + req.get('host')
     })
 })
 
 //create professor table
-app.post("/professor", (request, response) => {
+app.post("/professor", (req, res) => {
     res.send({
-        message: request.protocol + '://' + request.get('host')
+        message: req.protocol + '://' + req.get('host')
     })
 })
 
 // Use self-defined routes
-app.use("/dbRouter", dbRouter)
+app.use("/dbRouter", dbRouter);
+
+app.get("/dbRouter/:course", (req, res) => {
+    console.log(req.params.course);
+}) 
 
 app.listen( process.env.PORT || 8081 )

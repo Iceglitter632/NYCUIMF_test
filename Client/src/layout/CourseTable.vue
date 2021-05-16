@@ -32,24 +32,29 @@
 
 import DownloadService from "../services/DownloadService";
 import CourseService from "../services/CourseService";
+import axios from 'axios';
 
 export default{
   props: ["course"],
   mounted() {
-    this.ShowExamTable();
+    this.ShowExamTable(this.course);
   },
   data() {
     return {
       courses: []
     }
   },
+  watch:{
+    course: function(newVal, oldVal){
+      this.ShowExamTable(newVal);
+    }
+  },
   methods:{
     async Download(courseid){
       await DownloadService.download(courseid);
     },
-    async ShowExamTable(){
-      var course = this.course;
-      const response = await CourseService.course({params:{course}});
+    async ShowExamTable(c){
+      const response = await CourseService.course(c);
       this.courses = response.data;
     }
   }

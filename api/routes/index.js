@@ -3,14 +3,13 @@ const db = require("../db");
 
 const router = express.Router();
 
-router.get("/", async (request, response, next) => {
-
+router.get("/", async (req, res, next) => {
     try{
-        let results = await db.all(request);
-        response.json(results);
+        let results = await db.all(req);
+        res.json(results);
     } catch(e) {
         console.log(e);
-        response.sendStatus(500);
+        res.sendStatus(500);
     }
 
 });
