@@ -22,4 +22,25 @@ router.get("/getcourseforgrades/:id", async (req, res, next) => {
         res.sendStatus(500);
     }
 });
+
+router.get("/getallcourses", async (req, res, next) =>{
+    try{
+        let results = await db.getallcourses();
+        res.json(results);
+    } catch(e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+})
+
+router.get("/getallteachers", async (req, res, next) =>{
+    try{
+        let results = await db.getallteachers();
+        res.json(results);
+    } catch(e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+})
+
 module.exports = router;

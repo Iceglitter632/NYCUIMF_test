@@ -4,7 +4,7 @@
             <div class="title col-md-8">
                 <h5 class="display-4" href="#"><u>交大資財考古題系統</u></h5>
             </div>
-            <div class="col-md-3 upload">
+            <div class="col-md-3" style="text-align:right; font-size:20px; color:#5e72e4;">
                 <upload></upload>
             </div>
             <!-- <div class="col-md-3 upload"><span>上傳檔案</span></div> -->
@@ -31,17 +31,5 @@ export default{
 }
 .header-row {
     padding-top: 2%;
-}
-.upload {
-    text-align: right;
-    font-size: 20px;
-    color: #5e72e4;
-}
-.upload :hover{
-    text-decoration: underline;
-    cursor: pointer;
-}
-.display-3 {
-    text-decoration: none;
 }
 </style>

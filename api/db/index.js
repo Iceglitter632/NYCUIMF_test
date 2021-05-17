@@ -39,4 +39,28 @@ db.getcourses = (id) => {
     });
 };
 
+db.getallcourses = () => {
+    return new Promise((resolve, reject)=>{
+        pool.query("SELECT coursename FROM grades",
+        (err, results) => {
+            if(err){
+                return reject(err);
+            }
+            return resolve(results);
+        });
+    });
+};
+
+db.getallteachers = () => {
+    return new Promise((resolve, reject)=>{
+        pool.query("SELECT DISTINCT teacher FROM courses",
+        (err, results) => {
+            if(err){
+                return reject(err);
+            }
+            return resolve(results);
+        });
+    });
+};
+
 module.exports = db;
