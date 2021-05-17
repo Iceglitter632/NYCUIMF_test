@@ -15,30 +15,35 @@
                     <base-input alternative
                                 class="mb-3 in"
                                 placeholder="學年度"
+                                v-model="form.year"
                                 addon-left-icon="fa fa-graduation-cap">
                     </base-input>
                     <base-input alternative
                                 type="String"
                                 placeholder="類別"
                                 list="types"
+                                v-model="form.type"
                                 addon-left-icon="fa fa-file-text-o">
                     </base-input>
                     <datalist id="types">
-                        <option v-for="type in types" :value="type" v-bind:key="type"></option>
+                        <option v-for="type in types" :value="type" :key="type"></option>
                     </datalist>
                     <base-input alternative
                                 type="String"
                                 placeholder="課名"
                                 list="courses"
+                                v-model="form.course"
                                 addon-left-icon="fa fa-book">
                     </base-input>
                     <datalist id="courses">
-                        <option v-for="course in courses" v-bind:key="course" :value="course.coursename"></option>
+                        <option v-for="course in courses" v-bind:key="course.coursename" 
+                        :value="course.coursename"></option>
                     </datalist>
                     <base-input alternative
                                 type="String"
                                 placeholder="分類"
                                 list = "grades"
+                                v-model="form.grade"
                                 addon-left-icon="fa fa-users">
                     </base-input>
                     <datalist id="grades">
@@ -48,10 +53,12 @@
                                 type="String"
                                 list=teachers
                                 placeholder="老師"
+                                v-model="form.teacher"
                                 addon-left-icon="fa fa-child">
                     </base-input>
                     <datalist id="teachers">
-                        <option v-for="teacher in teachers" v-bind:key="teacher" :value="teacher.teacher"></option>
+                        <option v-for="teacher in teachers" :value="teacher.teacher" 
+                        v-bind:key="teacher.teacher"></option>
                     </datalist>
                     <div @dragover="dragover" @dragleave="dragleave" @drop="drop" class="bg-gray-100 border border-gray-300 input-container">
                         <input type="file" multiple name="fields[assetFieldHandle][]" id="assetsFieldHandle" 
@@ -94,7 +101,14 @@ export default{
             types: ["期中考","期末考","小考","第一次期中考","第二次期中考"],
             courses: [],
             teachers: [],
-            grades: ["大一","大二","大三","大四","通識"]
+            grades: ["大一","大二","大三","大四","通識"],
+            form: {
+                year:'',
+                type:'',
+                course:'',
+                teacher:'',
+                grade:'',
+            }
         };
     },
     methods: {
