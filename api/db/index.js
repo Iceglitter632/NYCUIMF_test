@@ -12,12 +12,24 @@ const pool = mysql.createPool({
 
 let db = {};
 
-db.all = (req, res) => {
+db.all = (req) => {
     // var course = req.params.course;
     const course = req.query[0];
     console.log(req.query);
     return new Promise((resolve, reject)=>{
-        pool.query(`SELECT * FROM courses WHERE course = "${course}"`,
+        pool.query(`SELECT * FROM courses WHERE course = ?`, course,
+        (err, results) => {
+            if(err){
+                return reject(err);
+            }
+            return resolve(results);
+        });
+    });
+};
+
+db.getcourses = (id) => {
+    return new Promise((resolve, reject)=>{
+        pool.query(`SELECT coursename FROM grades WHERE grade = ?`, id,
         (err, results) => {
             if(err){
                 return reject(err);

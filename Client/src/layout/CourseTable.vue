@@ -32,7 +32,6 @@
 
 import DownloadService from "../services/DownloadService";
 import CourseService from "../services/CourseService";
-import axios from 'axios';
 
 export default{
   props: ["course"],

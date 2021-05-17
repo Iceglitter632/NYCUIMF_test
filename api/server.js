@@ -40,8 +40,4 @@ app.post("/professor", (req, res) => {
 // Use self-defined routes
 app.use("/dbRouter", dbRouter);
 
-app.get("/dbRouter/:course", (req, res) => {
-    console.log(req.params.course);
-}) 
-
 app.listen( process.env.PORT || 8081 )
