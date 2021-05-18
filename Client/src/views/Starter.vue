@@ -32,6 +32,7 @@ export default {
         Research,
         ProfessorTable,
         CourseTable,
+
     },
     methods: {
         getClicked({tab, choosen}){

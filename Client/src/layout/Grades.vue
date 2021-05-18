@@ -1,24 +1,27 @@
 <template>
 <collapse>
     <collapse-item title="大一" name="1">
-        <div v-for="(item, index) in courses" :key="index" class="subjects" 
-        v-on:click="getCourse(item)">
-            <p class="courser">{{item}}</p>
+        <div v-for="(item, index) in freshmen" :key="index" class="subjects" 
+        v-on:click="getCourse(item.coursename)">
+            <p class="courser">{{item.coursename}}</p>
         </div>
     </collapse-item>
     <collapse-item title="大二" name="2">
-        <div>
-            <p>test</p>
+        <div v-for="(item, index) in sophomore" :key="index" class="subjects" 
+        v-on:click="getCourse(item.coursename)">
+            <p class="courser">{{item.coursename}}</p>
         </div>
     </collapse-item>
     <collapse-item title="大三" name="3">
-        <div>
-            <p>test</p>
+        <div v-for="(item, index) in junior" :key="index" class="subjects" 
+        v-on:click="getCourse(item.coursename)">
+            <p class="courser">{{item.coursename}}</p>
         </div>
     </collapse-item>
     <collapse-item title="大四" name="4">
-        <div>
-            <p>test</p>
+        <div v-for="(item, index) in senior" :key="index" class="subjects" 
+        v-on:click="getCourse(item.coursename)">
+            <p class="courser">{{item.coursename}}</p>
         </div>
     </collapse-item>
     <collapse-item title="其他課程" name="5">
@@ -32,9 +35,13 @@
 <script>
 import Collapse from '../components/Collapse/Collapse.vue';
 import CollapseItem from "../components/Collapse/CollapseItem.vue";
+import CourseService from "../services/CourseService";
 
 export default{
   components: { CollapseItem, Collapse },
+  mounted() {
+      this.ShowCourses()
+  },
   data() {
       return {
           courses: [
@@ -43,11 +50,28 @@ export default{
           "會計(一)",
           "經濟學原理(一)",
           "程式設計",
-          ]}
+          ],
+          freshmen: [],
+          sophomore: [],
+          junior: [],
+          senior: [],
+        }
+         
     },
     methods: {
-        getCourse: function(item){
+        getCourse(item) {
             this.$emit("clicked", {"tab":0, "choosen":item})
+        },
+        async ShowCourses(){
+            var response = await CourseService.courseforeachgrade(1);
+            this.freshmen = response.data;
+            response = await CourseService.courseforeachgrade(2);
+            this.sophomore = response.data;
+            response = await CourseService.courseforeachgrade(3);
+            this.junior = response.data;
+            response = await CourseService.courseforeachgrade(4);
+            this.senior = response.data;
+
         }
     }
 

@@ -4,7 +4,6 @@
     <table>
       <tr>
         <th class="head">年度</th>
-        <th class="head">類別</th>
         <th class="head">老師</th>
         <th class="head">檔名</th>
       </tr>
@@ -15,13 +14,11 @@
       <tbody>
         <tr class="test">
           <td>109</td>
-          <td>期末考</td>
           <td>黃思皓</td>
           <td>test.jpg</td>
         </tr>
-        <tr class="test">
+        <tr class="test" v-on:click="ShowExam(professor)">
           <td>108</td>
-          <td>期中考</td>
           <td>{{professor}}</td>
           <td>test2.jpg</td>
         </tr>
@@ -32,8 +29,17 @@
 </template>
 
 <script>
+import CourseService from "../services/CourseService"
 export default{
   props: ["professor"],
+  methods:{
+    async ShowExam(course){
+      const response = await CourseService.course({
+        courses: course
+      })
+      console.log(response.data)
+    },
+  }
 }
 </script>
 
