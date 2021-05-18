@@ -18,7 +18,7 @@
                                 v-model="form.year"
                                 addon-left-icon="fa fa-graduation-cap">
                     </base-input>
-                    <base-input alternative
+                    <base-input 
                                 type="String"
                                 placeholder="類別"
                                 list="types"
@@ -54,26 +54,31 @@
                                 list=teachers
                                 placeholder="老師"
                                 v-model="form.teacher"
-                                addon-left-icon="fa fa-child">
+                                addon-left-icon="fa fa-child"
+                                >
                     </base-input>
                     <datalist id="teachers">
                         <option v-for="teacher in teachers" :value="teacher.teacher" 
                         v-bind:key="teacher.teacher"></option>
                     </datalist>
-                    <div @dragover="dragover" @dragleave="dragleave" @drop="drop" class="bg-gray-100 border border-gray-300 input-container">
-                        <input type="file" multiple name="fields[assetFieldHandle][]" id="assetsFieldHandle" 
-                        @change="onChange" ref="file" accept=".pdf,.jpg,.jpeg,.png,.zip,.rar"
-                        class="w-px h-px opacity-0 overflow-hidden absolute input-file"/>
+
+                    <div class="input-container">
+                        <input type="file"
+                            id="assetsFieldHandle"
+                            @change="onFileChange"
+                            ref="file"
+                            class="input-file" 
+                            accept=".pdf,.jpg,.jpeg,.png,.zip,.rar"/>
                         <label for="assetsFieldHandle" class="block cursor-pointer">
                             <div class="uploadbox">
                                 <span>Drag file or Click to Upload</span> 
                             </div>
                         </label>
-                        <span v-for="file in filelist" v-bind:key="file" class="uploaded">{{file.name}}</span>
+                        <br>
+                        <span class="uploaded">{{selectedFile.name}}</span>
                     </div>
-                    
                     <div class="text-center">
-                        <base-button type="primary" class="my-4">Upload</base-button>
+                        <base-button type="primary" class="my-4" @click="onUploadFile" :disable="!this.selectedFile">Upload</base-button>
                     </div>
                 </form>
             </template>
@@ -85,6 +90,8 @@
 <script>
 import Modal from "@/components/Modal.vue";
 import CourseService from "../services/CourseService";
+import axios from "axios";
+
 export default{
     components: {
         Modal
@@ -94,14 +101,15 @@ export default{
     },
     data() {
         return {
+            files: [],
             modals: {
                 modal0: false,
             },
-            filelist: [],
             types: ["期中考","期末考","小考","第一次期中考","第二次期中考"],
             courses: [],
             teachers: [],
             grades: ["大一","大二","大三","大四","通識"],
+            selectedFile:'',
             form: {
                 year:'',
                 type:'',
@@ -112,32 +120,20 @@ export default{
         };
     },
     methods: {
-        onChange(){
-            this.filelist = [...this.$refs.file.files];
+        onFileChange(e){
+            const selectedFile = e.target.files[0];
+            this.selectedFile = selectedFile;
         },
-        remove(i){
-            this.filelist.splice(i, 1);
-        },
-        dragover(event) {
-            event.preventDefault();
-            // Add some visual fluff to show the user can drop its files
-            if (!event.currentTarget.classList.contains('bg-green-300')) {
-                event.currentTarget.classList.remove('bg-gray-100');
-                event.currentTarget.classList.add('bg-green-300');
-            }
-        },
-        dragleave(event) {
-            // Clean up
-            event.currentTarget.classList.add('bg-gray-100');
-            event.currentTarget.classList.remove('bg-green-300');
-        },
-        drop(event) {
-            event.preventDefault();
-            this.$refs.file.files = event.dataTransfer.files;
-            this.onChange(); // Trigger the onChange event manually
-            // Clean up
-            event.currentTarget.classList.add('bg-gray-100');
-            event.currentTarget.classList.remove('bg-green-300');
+        onUploadFile(){
+          const formData = new FormData();
+          formData.append("file", this.selectedFile);
+          axios.post("http://localhost:8081/upload", formData)
+          .then(res => {
+              console.log(res);
+          })
+          .catch(e=>{
+              console.log(err);
+          });
         },
         async GetFromDB() {
             var response = await CourseService.getallcourses();
