@@ -26,7 +26,9 @@
                                 addon-left-icon="fa fa-file-text-o">
                     </base-input>
                     <datalist id="types">
-                        <option v-for="type in types" :value="type" :key="type"></option>
+                        <option v-for="type in types" :key="type">
+                            {{type}}
+                        </option>
                     </datalist>
                     <base-input alternative
                                 type="String"
@@ -36,8 +38,9 @@
                                 addon-left-icon="fa fa-book">
                     </base-input>
                     <datalist id="courses">
-                        <option v-for="course in courses" v-bind:key="course.coursename" 
-                        :value="course.coursename"></option>
+                        <option v-for="course in courses" v-bind:key="course.coursename" >
+                            {{course.coursename}}
+                        </option>
                     </datalist>
                     <base-input alternative
                                 type="String"
@@ -47,7 +50,9 @@
                                 addon-left-icon="fa fa-users">
                     </base-input>
                     <datalist id="grades">
-                        <option v-for="grade in grades" v-bind:key="grade" :value="grade"></option>
+                        <option v-for="grade in grades" v-bind:key="grade">
+                            {{grade}}
+                        </option>
                     </datalist>
                     <base-input alternative
                                 type="String"
@@ -58,8 +63,9 @@
                                 >
                     </base-input>
                     <datalist id="teachers">
-                        <option v-for="teacher in teachers" :value="teacher.teacher" 
-                        v-bind:key="teacher.teacher"></option>
+                        <option v-for="teacher in teachers" v-bind:key="teacher.teacher">
+                            {{teacher.teacher}}
+                        </option>
                     </datalist>
 
                     <div class="input-container">
