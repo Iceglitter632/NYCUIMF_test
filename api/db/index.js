@@ -17,9 +17,10 @@ let db = {};
 db.all = (req) => {
     // var course = req.params.course;
     const course = req.query[0];
-    console.log(req.query);
     return new Promise((resolve, reject)=>{
-        pool.query(`SELECT * FROM courses WHERE course = ?`, course,
+        pool.query(
+            `SELECT * FROM courses WHERE course = ? ORDER BY year DESC`, 
+            course,
         (err, results) => {
             if(err){
                 return reject(err);
@@ -91,6 +92,19 @@ db.upload = (body, filename) => {
     // )
     return id;
 }
+
+db.getfilename = (id) => {
+    console.log(id);
+    return new Promise((resolve, reject)=>{
+        pool.query(`SELECT filename FROM courses WHERE id = ?`, id,
+        (err, results) => {
+            if(err){
+                return reject(err);
+            }
+            return resolve(results);
+        });
+    });
+};
 
 module.exports = db;
 

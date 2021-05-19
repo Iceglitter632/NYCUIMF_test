@@ -1,7 +1,7 @@
 <template>
 <div>
     <div class="mainupload">
-        <span @click="modals.modal0 = true">Upload</span>
+        <h5 @click="modals.modal0 = true">Upload</h5>
     </div>
     <modal :show.sync="modals.modal0"
             body-classes="p-0"
@@ -11,6 +11,10 @@
                 body-classes="px-lg-5 py-lg-5"
                 class="border-0">
             <template>
+                <div class="text-center title">
+                    <h1 class="display-4">上傳考古題</h1>
+                </div>
+                <hr>
                 <form role="form">
                     <base-input alternative
                                 class="mb-3 in"
@@ -24,6 +28,7 @@
                                 placeholder="類別"
                                 list="types"
                                 v-model="form.type"
+                                required
                                 addon-left-icon="fa fa-file-text-o">
                     </base-input>
                     <datalist id="types">
@@ -36,6 +41,7 @@
                                 placeholder="課名"
                                 list="courses"
                                 v-model="form.course"
+                                required
                                 addon-left-icon="fa fa-book">
                     </base-input>
                     <datalist id="courses">
@@ -48,6 +54,7 @@
                                 placeholder="年級"
                                 list = "grades"
                                 v-model="form.grade"
+                                required
                                 addon-left-icon="fa fa-users">
                     </base-input>
                     <datalist id="grades">
@@ -60,6 +67,7 @@
                                 list=teachers
                                 placeholder="老師"
                                 v-model="form.teacher"
+                                required
                                 addon-left-icon="fa fa-child"
                                 >
                     </base-input>
@@ -69,24 +77,25 @@
                         </option>
                     </datalist>
 
-                    <div class="input-container">
+                    <div class="input-container" @dragover="dragover" @dragleave="dragleave" @drop="drop">
                         <input type="file"
-                            id="assetsFieldHandle"
-                            @change="onFileChange"
-                            ref="file"
-                            class="input-file" 
-                            accept=".pdf,.jpg,.jpeg,.png,.zip,.rar"/>
-                        <label for="assetsFieldHandle" class="block cursor-pointer">
-                            <div class="uploadbox">
-                                <span>Click to Upload File</span> 
+                        id="assetsFieldHandle"
+                        class="input-file"
+                        @change="onFileChange"
+                        ref="file"
+                        accept=".pdf,.jpg,.jpeg,.png,.zip,.rar" />
+                        <label for="assetsFieldHandle">
+                            <div class="mainupload">
+                                Drop files or <u>Click Here</u>
                             </div>
                         </label>
-                        <br>
                         <span class="uploaded">{{selectedFile.name}}</span>
                     </div>
-
                     <div class="text-center">
-                        <base-button type="primary" class="my-4" @click="onUploadFile" :disable="!this.selectedFile">Upload</base-button>
+                        <span class="error" v-if="flag">All inputs are required</span>
+                    </div>
+                    <div class="text-center">
+                        <base-button type="primary" class="my-4" @click="onSubmit" :disable="!this.selectedFile">Upload</base-button>
                     </div>
                 </form>
             </template>
@@ -99,7 +108,6 @@
 import Modal from "@/components/Modal.vue";
 import CourseService from "../services/CourseService";
 import UploadService from '../services/Upload';
-import axios from "axios";
 
 export default{
     components: {
@@ -124,7 +132,11 @@ export default{
                 course:'',
                 teacher:'',
                 grade:'',
-            }
+            },
+            errors: [],
+            flag : false,
+            uploading: false,
+            filelist: []
         };
     },
     methods: {
@@ -135,7 +147,7 @@ export default{
             this.teachers = response.data;
         },
         onFileChange(e){
-            this.selectedFile = e.target.files[0];
+            this.selectedFile = this.$refs.file.files[0];
         },
         onUploadFile(){
           const formData = new FormData();
@@ -145,16 +157,29 @@ export default{
           formData.append("course", this.form.course);
           formData.append("teacher", this.form.teacher);
           formData.append("grade", this.form.grade);
-
           UploadService.upload(formData);
-        //   axios.post("http://localhost:8081/upload", formData)
-        //   .then(res => {
-        //       console.log(res);
-        //   })
-        //   .catch(e=>{
-        //       console.log(err);
-        //   });
-          this.ClearForm();
+        },
+        isValidinput(){
+            var isValid = true;
+            for(const key in this.form){
+                if(this.form[key]===""){
+                    isValid = false;
+                    this.errors.push(`${this.form[key]} required`);
+                }
+            }
+            if(this.selectedFile==='')
+                isValid = false;
+            return isValid;
+        },
+        onSubmit(){
+            if(this.isValidinput()){
+                this.flag = false;
+                this.onUploadFile();
+                this.ClearForm();    
+            }
+            else{
+                this.flag = true;
+            }
         },
         ClearForm(){
             this.selectedFile = '';
@@ -163,6 +188,27 @@ export default{
             this.form.course = '';
             this.form.teacher = '';
             this.form.grade = '';
+        },
+        dragover(event) {
+            event.preventDefault();
+            // Add some visual fluff to show the user can drop its files
+            if (!event.currentTarget.classList.contains('bg-green-300')) {
+                event.currentTarget.classList.remove('bg-gray-100');
+                event.currentTarget.classList.add('bg-green-300');
+            }
+        },
+        dragleave(event) {
+            // Clean up
+            event.currentTarget.classList.add('bg-gray-100');
+            event.currentTarget.classList.remove('bg-green-300');
+        },
+        drop(event) {
+            event.preventDefault();
+            this.$refs.file.files = event.dataTransfer.files;
+            this.onFileChange();
+            // Clean up
+            event.currentTarget.classList.add('bg-gray-100');
+            event.currentTarget.classList.remove('bg-green-300');
         }
      
     }
@@ -170,29 +216,39 @@ export default{
 </script>
 
 <style>
-.input-file{
-    display: none;
+.error{
+    font-size: 14px;
+    color: #f5365c ;
 }
 .input-container {
+    min-height: 150px;
+    cursor: pointer;
+    outline: 2px dashed #172b4d5b;
+    background: #e2e2e5;
+    border-radius: 10px;
+    outline-offset: -8px;
     text-align: center;
-    height: 150px;
 }
-.block{
-    vertical-align: -webkit-baseline-middle;
+.input-container label{
+    margin-top: 25px;
+    width: 100%;
 }
-.mainupload :hover{
-    text-decoration: underline;
+.input-file{
+    opacity: 0;
+    width: 100%;
     cursor: pointer;
 }
-.uploadbox{
-    font-size: 16px;
+.mainupload{
+    margin-right: 100px;
+    width: 100%;
+    margin-bottom: 0;
+    cursor: pointer;
 }
-.uploadbox :hover{
+.mainupload :hover{
     text-decoration: underline;
 }
 .uploaded{
     font-size: 14px;
     color: #8a8a8a;
 }
-
 </style>

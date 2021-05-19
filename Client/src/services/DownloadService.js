@@ -1,36 +1,28 @@
 import Api from "@/services/API"
 import axios from 'axios'
+const path = require("path")
 
 export default{
-    download(course){
+    download(id){
         // const url =  Api().get("download", path)
-        const url = "http://localhost:8081/"+course+".pdf"
-        console.log(url)
-        const name = course+".pdf"
-        axios({
+        Api().get("dbRouter/download/"+id).then((response1)=>{
+          const filename = response1.data[0].filename;
+          const ext = path.extname(filename);
+          console.log(filename);
+          const url = "http://localhost:8081/"+id+ext;
+          axios({
             url: url,
-            method: 'GET',
-            responseType: 'blob',
-          }).then((response) => {
-            const url = window.URL.createObjectURL(new Blob([response.data]));
+            method: "GET",
+            responseType: "blob"
+          }).then((response2)=>{
+            const url2 = window.URL.createObjectURL(new Blob([response2.data]));
             const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', name);
+            link.href = url2;
+            link.setAttribute('download', filename);
             document.body.appendChild(link);
             link.click();
-          });
+          })
+        })
+        
     }
 }
-
-// axios({
-//     url: 'https://c.files.bbci.co.uk/12A9B/production/_111434467_gettyimages-1143489763.jpg', //your url
-//     method: 'GET',
-//     responseType: 'blob', // important
-//   }).then((response) => {
-//     const url = window.URL.createObjectURL(new Blob([response.data]));
-//     const link = document.createElement('a');
-//     link.href = url;
-//     link.setAttribute('download', 'file.jpg'); //or any other extension
-//     document.body.appendChild(link);
-//     link.click();
-//   });

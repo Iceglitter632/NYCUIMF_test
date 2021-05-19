@@ -19,7 +19,7 @@ app.use(express.static("data"));
 app.unsubscribe(express.urlencoded({extended:false}));
 
 
-//file upload api
+//file upload
 app.post("/upload", (req, res) => {
     if(!req.files) {
         return res.status(500).send({msg: "file not found"});
@@ -36,6 +36,7 @@ app.post("/upload", (req, res) => {
     });
     
 });
+
 
 // Use self-defined routes
 app.use("/dbRouter", dbRouter.router);
