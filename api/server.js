@@ -19,6 +19,7 @@ app.unsubscribe(express.urlencoded({extended:false}));
 
 //file upload api
 app.post("/upload", (req, res) => {
+    console.log(req.body);
     if(!req.files) {
         return res.status(500).send({msg: "file not found"});
     }

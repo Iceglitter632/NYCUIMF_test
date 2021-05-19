@@ -44,7 +44,7 @@
                     </datalist>
                     <base-input alternative
                                 type="String"
-                                placeholder="分類"
+                                placeholder="年級"
                                 list = "grades"
                                 v-model="form.grade"
                                 addon-left-icon="fa fa-users">
@@ -77,12 +77,13 @@
                             accept=".pdf,.jpg,.jpeg,.png,.zip,.rar"/>
                         <label for="assetsFieldHandle" class="block cursor-pointer">
                             <div class="uploadbox">
-                                <span>Drag file or Click to Upload</span> 
+                                <span>Click to Upload File</span> 
                             </div>
                         </label>
                         <br>
                         <span class="uploaded">{{selectedFile.name}}</span>
                     </div>
+
                     <div class="text-center">
                         <base-button type="primary" class="my-4" @click="onUploadFile" :disable="!this.selectedFile">Upload</base-button>
                     </div>
@@ -107,7 +108,6 @@ export default{
     },
     data() {
         return {
-            files: [],
             modals: {
                 modal0: false,
             },
@@ -115,7 +115,7 @@ export default{
             courses: [],
             teachers: [],
             grades: ["大一","大二","大三","大四","通識"],
-            selectedFile:'',
+            selectedFile: '',
             form: {
                 year:'',
                 type:'',
@@ -126,13 +126,23 @@ export default{
         };
     },
     methods: {
+        async GetFromDB() {
+            var response = await CourseService.getallcourses();
+            this.courses = response.data;
+            response = await CourseService.getallteachers();
+            this.teachers = response.data;
+        },
         onFileChange(e){
-            const selectedFile = e.target.files[0];
-            this.selectedFile = selectedFile;
+            this.selectedFile = e.target.files[0];
         },
         onUploadFile(){
           const formData = new FormData();
           formData.append("file", this.selectedFile);
+          formData.append("year", this.form.year);
+          formData.append("type", this.form.type);
+          formData.append("course", this.form.course);
+          formData.append("teacher", this.form.teacher);
+          formData.append("grade", this.form.grade);
           axios.post("http://localhost:8081/upload", formData)
           .then(res => {
               console.log(res);
@@ -140,13 +150,17 @@ export default{
           .catch(e=>{
               console.log(err);
           });
+          this.ClearForm();
         },
-        async GetFromDB() {
-            var response = await CourseService.getallcourses();
-            this.courses = response.data;
-            response = await CourseService.getallteachers();
-            this.teachers = response.data;
+        ClearForm(){
+            this.selectedFile = '';
+            this.form.year = '';
+            this.form.type = '';
+            this.form.course = '';
+            this.form.teacher = '';
+            this.form.grade = '';
         }
+     
     }
 }
 </script>
@@ -176,4 +190,5 @@ export default{
     font-size: 14px;
     color: #8a8a8a;
 }
+
 </style>

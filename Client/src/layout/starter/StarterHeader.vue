@@ -14,7 +14,7 @@
 <script>
 import BaseNav from "@/components/BaseNav";
 import CloseButton from "@/components/CloseButton";
-import Upload from "../Upload.vue";
+import Upload from "../Upload";
 
 export default{
   components: {
