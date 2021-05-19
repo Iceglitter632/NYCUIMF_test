@@ -43,4 +43,12 @@ router.get("/getallteachers", async (req, res, next) =>{
     }
 })
 
-module.exports = router;
+function uploadtodb(body, filename) {
+    const id = db.upload(body, filename);
+    return id;
+};
+
+module.exports = {
+    router,
+    uploadtodb,
+}

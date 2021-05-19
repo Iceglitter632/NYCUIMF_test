@@ -14,8 +14,9 @@
                 <form role="form">
                     <base-input alternative
                                 class="mb-3 in"
-                                placeholder="學年度"
+                                placeholder="西元年"
                                 v-model="form.year"
+                                required
                                 addon-left-icon="fa fa-graduation-cap">
                     </base-input>
                     <base-input 
@@ -97,6 +98,7 @@
 <script>
 import Modal from "@/components/Modal.vue";
 import CourseService from "../services/CourseService";
+import UploadService from '../services/Upload';
 import axios from "axios";
 
 export default{
@@ -143,13 +145,15 @@ export default{
           formData.append("course", this.form.course);
           formData.append("teacher", this.form.teacher);
           formData.append("grade", this.form.grade);
-          axios.post("http://localhost:8081/upload", formData)
-          .then(res => {
-              console.log(res);
-          })
-          .catch(e=>{
-              console.log(err);
-          });
+
+          UploadService.upload(formData);
+        //   axios.post("http://localhost:8081/upload", formData)
+        //   .then(res => {
+        //       console.log(res);
+        //   })
+        //   .catch(e=>{
+        //       console.log(err);
+        //   });
           this.ClearForm();
         },
         ClearForm(){
