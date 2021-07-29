@@ -1,10 +1,10 @@
 <template>
 
 <div class="row">
-    <div class="col-2" id="col">
+    <div class="col-3" id="col">
         <listof-grades @clicked="getClicked"></listof-grades>
     </div>
-    <div class="col-10" id="col">
+    <div class="col-9" id="col">
         <professor-table v-if="professor" :professor = "professor"/>
         <course-table v-else-if="course" :course="course"></course-table>
         <h5 v-else>請點選左方列表</h5>

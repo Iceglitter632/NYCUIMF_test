@@ -9,7 +9,7 @@ export default{
           const filename = response1.data[0].filename;
           const ext = path.extname(filename);
           console.log(filename);
-          const url = "http://localhost:8081/"+id+ext;
+          const url = "http://140.113.65.6:8081/"+id+ext;
           axios({
             url: url,
             method: "GET",
@@ -23,6 +23,5 @@ export default{
             link.click();
           })
         })
-        
     }
 }
