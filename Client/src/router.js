@@ -1,69 +1,62 @@
 import Vue from "vue";
 import Router from "vue-router";
-import AppHeader from "./layout/AppHeader";
-import AppFooter from "./layout/AppFooter";
-import Components from "./views/Components.vue";
-import Landing from "./views/Landing.vue";
-import Login from "./views/Login.vue";
-import Register from "./views/Register.vue";
-import Profile from "./views/Profile.vue";
+import Header from "./layout/AppHeader";
+import Footer from "./layout/AppFooter";
+import Home from "./views/Home.vue";
+import CourseTable from "./layout/CourseTable";
+import PastExams from "./layout/PastExams";
+import Textbooks from "./layout/Textbooks";
+import TextbookTable from "./layout/TextbookTable";
 
 Vue.use(Router);
 
 export default new Router({
-  linkExactActiveClass: "active",
   routes: [
     {
       path: "/",
-      name: "components",
+      name: "starter",
       components: {
-        header: AppHeader,
-        default: Components,
-        footer: AppFooter
+        header: Header,
+        default: Home,
+        footer: Footer
       }
     },
     {
-      path: "/landing",
-      name: "landing",
-      components: {
-        header: AppHeader,
-        default: Landing,
-        footer: AppFooter
+      path: "/exams",
+      name: "exams",
+      components:{
+        header: Header,
+        default: PastExams,
+        footer: Footer
       }
     },
     {
-      path: "/login",
-      name: "login",
-      components: {
-        header: AppHeader,
-        default: Login,
-        footer: AppFooter
+      path: "/textbooks",
+      name: "textbooks",
+      components:{
+        header: Header,
+        default: Textbooks,
+        footer: Footer
       }
     },
     {
-      path: "/register",
-      name: "register",
-      components: {
-        header: AppHeader,
-        default: Register,
-        footer: AppFooter
+      path: "/exams/:grade/:course",
+      name: "exam_course",
+      components:{
+        header: Header,
+        default: CourseTable,
+        footer: Footer
       }
     },
     {
-      path: "/profile",
-      name: "profile",
-      components: {
-        header: AppHeader,
-        default: Profile,
-        footer: AppFooter
+      path: "/textbooks/:grade/:course",
+      name: "textbooks_course",
+      components:{
+        header: Header,
+        default: TextbookTable,
+        footer: Footer
       }
     }
-  ],
-  scrollBehavior: to => {
-    if (to.hash) {
-      return { selector: to.hash };
-    } else {
-      return { x: 0, y: 0 };
-    }
-  }
+  ]
 });
+ 
