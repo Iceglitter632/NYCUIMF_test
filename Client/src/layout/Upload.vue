@@ -1,7 +1,7 @@
 <template>
 <div>
     <div class="mainupload">
-        <h5 @click="modals.modal0 = true">Upload</h5>
+        <a @click="modals.modal0 = true">Upload</a>
     </div>
     <modal :show.sync="modals.modal0"
             body-classes="p-0"

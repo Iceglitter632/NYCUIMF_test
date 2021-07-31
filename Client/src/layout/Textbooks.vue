@@ -2,31 +2,31 @@
 <collapse>
     <collapse-item title="大一" name="1">
         <router-link tag="div" v-for="(item, index) in freshmen" :key="index" class="subjects" 
-        :to="'/1/'+item.coursename">
+        :to="'textbooks/1/'+item.coursename">
             <p class="courser">{{item.coursename}}</p>
         </router-link>
     </collapse-item>
     <collapse-item title="大二" name="2">
         <router-link tag="div" v-for="(item, index) in sophomore" :key="index" class="subjects" 
-        :to="'/2/'+item.coursename">
+        :to="'textbooks/2/'+item.coursename">
             <p class="courser">{{item.coursename}}</p>
         </router-link>
     </collapse-item>
     <collapse-item title="大三" name="3">
         <router-link tag="div" v-for="(item, index) in junior" :key="index" class="subjects" 
-        :to="'/3/'+item.coursename">
+        :to="'textbooks/3/'+item.coursename">
             <p class="courser">{{item.coursename}}</p>
         </router-link>
     </collapse-item>
     <collapse-item title="大四" name="4">
         <router-link tag="div" v-for="(item, index) in senior" :key="index" class="subjects" 
-        :to="'/4/'+item.coursename">
+        :to="'textbooks/4/'+item.coursename">
             <p class="courser">{{item.coursename}}</p>
         </router-link>
     </collapse-item>
     <collapse-item title="其他課程" name="5">
         <router-link tag="div" v-for="(item, index) in other" :key="index" class="subjects"
-        :to="'/other/'+item.coursename">
+        :to="'textbooks/other/'+item.coursename">
             <p class="courser">{{item.coursename}}</p>
         </router-link>
     </collapse-item>

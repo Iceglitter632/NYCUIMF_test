@@ -1,12 +1,12 @@
 <template>
-<tabs class="flex-column flex-md-row">
+<grades @clicked="returnItem"></grades>
+<!-- <tabs class="flex-column flex-md-row">
     <tab-pane key="tab1">
         <template slot="title">
             <i class="fa fa-pencil" aria-hidden="true"></i>
             考古專區
         </template>
         <grades @clicked="returnItem"></grades>
-        <!-- <p>arbitrary words</p> -->
     </tab-pane>
     <tab-pane key="tab2">
         <template slot="title">
@@ -14,9 +14,8 @@
             專題心得
         </template>
        <research @clicked="returnItem"></research>
-        <!-- <p>words from tab2</p> -->
     </tab-pane>
-</tabs>
+</tabs> -->
 </template>
 
 <script>

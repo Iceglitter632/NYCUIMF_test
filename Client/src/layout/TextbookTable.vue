@@ -1,7 +1,7 @@
 <template>
 <div style="padding-right:10px; margin:2rem;">
   <div id="back">
-    <router-link to="/exams/" tag="a">{{grade}}</router-link><span>/{{course}}</span>
+    <router-link to="/textbooks/" tag="a">{{grade}}</router-link><span>/{{course}}</span>
   </div>
   <div class="tbl-header">
     <table>

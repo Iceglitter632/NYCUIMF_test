@@ -1,36 +1,54 @@
 <template>
-    <header class="header-global">
-        <div class="row header-row">
-            <div class="title col-8">
-                <h5 class="display-4" href="#"><u>交大資財考古題系統</u></h5>
-            </div>
-            <div class="col-4 upload">
-                <upload></upload>
-            </div>
-            <!-- <div class="col-md-3 upload"><span>上傳檔案</span></div> -->
-        </div>
-    </header>
+<div style="position: relative">
+<base-nav type="primary" expand>
+    <router-link tag="a" to="/" class="navbar-brand">資財考古題系統</router-link>
+    <ul class="navbar-nav ml-lg-auto">
+        <li>
+            <router-link to="/exams" tag="a" class="nav-link nav-link-icon">
+                考古題專區
+            </router-link>
+        </li>
+        <li>
+            <router-link to="/textbooks" tag="a" class="nav-link nav-link-icon">
+                課本及講義
+            </router-link>
+        </li>
+        <li>
+            <a class="nav-link nav-link-icon" href="#">
+                外部連結
+            </a>
+        </li>
+        <li>
+            <a class="nav-link nav-link-icon" href="#">
+                登入
+            </a>
+        </li>
+        <li>
+            <upload class="nav-link nav-link-icon"></upload>
+        </li>
+    </ul>
+    
+ </base-nav>
+</div>
 </template>
 <script>
 import BaseNav from "@/components/BaseNav";
 import CloseButton from "@/components/CloseButton";
 import Upload from "../Upload";
+import BaseDropdown from "@/components/BaseDropdown";
 
 export default{
   components: {
     BaseNav,
     CloseButton,
-    Upload
-  }
-};
+    Upload,
+    BaseDropdown,
+  },
+}
 </script>
 
 <style>
-.title h5{
-    margin-left: 2%;
-}
 .upload{
-    text-align: right;
     font-size: 20px;
     color: #5e72e4;
 }

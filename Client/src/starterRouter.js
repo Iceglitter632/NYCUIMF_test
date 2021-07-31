@@ -4,7 +4,9 @@ import Header from "./layout/starter/StarterHeader";
 import Footer from "./layout/starter/StarterFooter";
 import Starter from "./views/Starter.vue";
 import CourseTable from "./layout/CourseTable";
-import ProfessorTable from "./layout/ProfessorTable";
+import PastExams from "./layout/PastExams";
+import Textbooks from "./layout/Textbooks";
+import TextbookTable from "./layout/TextbookTable";
 
 Vue.use(Router);
 
@@ -20,15 +22,41 @@ export default new Router({
       }
     },
     {
-      path: "/coursetable",
-      name: "coursetable",
-      component: CourseTable
+      path: "/exams",
+      name: "exams",
+      components:{
+        header: Header,
+        default: PastExams,
+        footer: Footer
+      }
     },
     {
-      path: "/download",
-      name: "download",
-      component: ProfessorTable
+      path: "/textbooks",
+      name: "textbooks",
+      components:{
+        header: Header,
+        default: Textbooks,
+        footer: Footer
+      }
     },
+    {
+      path: "/exams/:grade/:course",
+      name: "exam_course",
+      components:{
+        header: Header,
+        default: CourseTable,
+        footer: Footer
+      }
+    },
+    {
+      path: "/textbooks/:grade/:course",
+      name: "textbooks_course",
+      components:{
+        header: Header,
+        default: TextbookTable,
+        footer: Footer
+      }
+    }
   ]
 });
  
