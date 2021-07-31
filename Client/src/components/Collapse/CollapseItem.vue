@@ -8,7 +8,7 @@
         @click.prevent="activate"
         :aria-expanded="active"
         :aria-controls="`content-${itemId}`">
-      <p style="margin-left:22px; margin-top:5.5%;">
+      <p style="margin-left:22px;">
           <slot name="icon">
             <i v-if="!noIcon" class="fa fa-angle-right" aria-hidden="true"></i>
           </slot>

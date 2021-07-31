@@ -1,7 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
-// import router from ". /router";
-import router from "./starterRouter";
+import router from "./Router";
 import Argon from "./plugins/argon-kit";
 import Transitions from "vue2-transitions";
 import './registerServiceWorker'

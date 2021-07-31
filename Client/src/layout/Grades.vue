@@ -1,33 +1,34 @@
 <template>
 <collapse>
     <collapse-item title="大一" name="1">
-        <div v-for="(item, index) in freshmen" :key="index" class="subjects" 
-        v-on:click="getCourse(item.coursename)">
+        <router-link tag="div" v-for="(item, index) in freshmen" :key="index" class="subjects" 
+        :to="'/1/'+item.coursename">
             <p class="courser">{{item.coursename}}</p>
-        </div>
+        </router-link>
     </collapse-item>
     <collapse-item title="大二" name="2">
-        <div v-for="(item, index) in sophomore" :key="index" class="subjects" 
-        v-on:click="getCourse(item.coursename)">
+        <router-link tag="div" v-for="(item, index) in sophomore" :key="index" class="subjects" 
+        :to="'/2/'+item.coursename">
             <p class="courser">{{item.coursename}}</p>
-        </div>
+        </router-link>
     </collapse-item>
     <collapse-item title="大三" name="3">
-        <div v-for="(item, index) in junior" :key="index" class="subjects" 
-        v-on:click="getCourse(item.coursename)">
+        <router-link tag="div" v-for="(item, index) in junior" :key="index" class="subjects" 
+        :to="'/3/'+item.coursename">
             <p class="courser">{{item.coursename}}</p>
-        </div>
+        </router-link>
     </collapse-item>
     <collapse-item title="大四" name="4">
-        <div v-for="(item, index) in senior" :key="index" class="subjects" 
-        v-on:click="getCourse(item.coursename)">
+        <router-link tag="div" v-for="(item, index) in senior" :key="index" class="subjects" 
+        :to="'/4/'+item.coursename">
             <p class="courser">{{item.coursename}}</p>
-        </div>
+        </router-link>
     </collapse-item>
     <collapse-item title="其他課程" name="5">
-        <div>  
-            <p>test</p>
-        </div>
+        <router-link tag="div" v-for="(item, index) in other" :key="index" class="subjects"
+        :to="'/other/'+item.coursename">
+            <p class="courser">{{item.coursename}}</p>
+        </router-link>
     </collapse-item>
 </collapse>
 </template>
@@ -55,13 +56,10 @@ export default{
           sophomore: [],
           junior: [],
           senior: [],
-        }
-         
+          other:[],
+        }    
     },
     methods: {
-        getCourse(item) {
-            this.$emit("clicked", {"tab":0, "choosen":item})
-        },
         async ShowCourses(){
             var response = await CourseService.courseforeachgrade(1);
             this.freshmen = response.data;
@@ -71,7 +69,8 @@ export default{
             this.junior = response.data;
             response = await CourseService.courseforeachgrade(4);
             this.senior = response.data;
-
+            response = await CourseService.courseforeachgrade(5);
+            this.other = response.data;
         }
     }
 

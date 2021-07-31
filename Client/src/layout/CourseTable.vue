@@ -1,11 +1,15 @@
 <template>
-<div style="padding-right:10px;">
+<div style="padding-right:10px; margin:2rem;">
+  <div id="back">
+    <router-link to="/exams/" tag="a">{{grade}}</router-link><span>/{{course}}</span>
+  </div>
   <div class="tbl-header">
     <table>
       <tr>
         <th class="head">年度</th>
         <th class="head">類別</th>
         <th class="head">老師</th>
+        <th class="head">提供者</th>
         <th class="head">檔名</th>
       </tr>
     </table>
@@ -20,6 +24,7 @@
           <td>{{c.year}}</td>
           <td>{{c.type}}</td>
           <td>{{c.teacher}}</td>
+          <td>某人</td>
           <td>{{c.filename}}</td>
         </tr>
       </tbody>
@@ -34,18 +39,16 @@ import DownloadService from "../services/DownloadService";
 import CourseService from "../services/CourseService";
 
 export default{
-  props: ["course"],
   mounted() {
+    this.grade = this.$route.params.grade;
+    this.course = this.$route.params.course;
     this.ShowExamTable(this.course);
   },
   data() {
     return {
+      grade: null,
+      course: null,
       courses: [],
-    }
-  },
-  watch:{
-    course: function(newVal, oldVal){
-      this.ShowExamTable(newVal);
     }
   },
   methods:{
@@ -67,6 +70,7 @@ table{
 }
 .tbl-header{
   border-bottom: solid #5e72e4;
+  margin-top: 1em;
  }
 
 .head{
@@ -90,5 +94,13 @@ td{
 
 .test:hover {
   background-color: #f4f5f7;
+}
+
+#back{
+  font-size: large;
+}
+
+#back a:hover{
+  text-decoration: underline;
 }
 </style>
