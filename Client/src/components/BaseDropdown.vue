@@ -11,7 +11,7 @@
             <a class="dropdown-toggle nav-link"
                :class="{'no-caret': hideArrow}"
                data-toggle="dropdown">
-                <i :class="icon"></i>
+                <!-- <i :class="icon"></i> -->
                 <span class="no-icon">{{title}}</span>
             </a>
         </slot>

@@ -8,6 +8,7 @@
             </fade-transition>
         </main>
         <!-- <router-view name="footer"></router-view> -->
+        
     </div>
 </template>
 

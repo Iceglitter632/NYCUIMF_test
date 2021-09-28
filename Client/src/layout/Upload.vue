@@ -85,7 +85,7 @@
                         ref="file"
                         accept=".pdf,.jpg,.jpeg,.png,.zip,.rar" />
                         <label for="assetsFieldHandle">
-                            <div class="mainupload">
+                            <div class="uploadbox">
                                 Drop files or <u>Click Here</u>
                             </div>
                         </label>
@@ -107,7 +107,7 @@
 <script>
 import Modal from "@/components/Modal.vue";
 import CourseService from "../services/CourseService";
-import UploadService from '../services/Upload';
+import UploadService from '../services/UploadService';
 
 export default{
     components: {
@@ -121,7 +121,7 @@ export default{
             modals: {
                 modal0: false,
             },
-            types: ["期中考","期末考","小考","第一次期中考","第二次期中考"],
+            types: ["期中考","期末考","小考","第一次期中考","第二次期中考","課本","講義"],
             courses: [],
             teachers: [],
             grades: ["大一","大二","大三","大四","通識"],
@@ -247,6 +247,15 @@ export default{
 .mainupload :hover{
     text-decoration: underline;
 }
+
+.uploadbox{
+    color: #2f2c32;
+}
+
+.uploadbox u:hover{
+    cursor: pointer;
+}
+
 .uploaded{
     font-size: 14px;
     color: #8a8a8a;

@@ -8,16 +8,16 @@
                 考古題專區
             </router-link>
         </li>
-        <li>
+        <!-- <li>
             <router-link to="/textbooks" tag="a" class="nav-link nav-link-icon">
                 課本及講義
             </router-link>
-        </li>
-        <li>
-            <a class="nav-link nav-link-icon" href="#">
-                外部連結
-            </a>
-        </li>
+        </li> -->
+        <base-dropdown tag="li" title="外部連結" >
+            <a class="dropdown-item"
+             href="https://drive.google.com/drive/u/1/folders/1TZ2EDy5gEzPn-UyiYk_94qrWAxUMAdOp">雲端硬碟</a>
+            <a class="dropdown-item" href="https://imf.nctu.edu.tw/">資財系官網</a>
+        </base-dropdown>
         <li>
             <a class="nav-link nav-link-icon" href="#">
                 登入

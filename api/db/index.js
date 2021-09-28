@@ -2,11 +2,14 @@ const mysql = require("mysql2");
 const sha256 = require("crypto-js/sha256");
 const { reject } = require("lodash");
 
+//passwd: imfnctu
+//user: imf
+
 const pool = mysql.createPool({
     connectionLimit: 10,
-    password:  "imfnctu",
-    user: "imf",
-    host: "localhost",
+    password:  "Jerry4pihai",
+    user: "iceglitter",
+    host: "imfpastexam.mysql.database.azure.com",
     database: "imfexams",
     port: "3306"
 });
@@ -32,7 +35,7 @@ db.all = (req) => {
 
 db.getcourses = (id) => {
     return new Promise((resolve, reject)=>{
-        pool.query(`SELECT coursename FROM grades WHERE grade = ?`, id,
+        pool.query(`SELECT coursename FROM grades WHERE grade = ? ORDER BY coursename DESC`, id,
         (err, results) => {
             if(err){
                 return reject(err);
@@ -44,7 +47,7 @@ db.getcourses = (id) => {
 
 db.getallcourses = () => {
     return new Promise((resolve, reject)=>{
-        pool.query("SELECT coursename FROM grades",
+        pool.query("SELECT coursename FROM grades ORDER BY coursename DESC",
         (err, results) => {
             if(err){
                 return reject(err);
@@ -74,13 +77,24 @@ db.upload = (body, filename) => {
     let grade = body.grade;
     let code = course+year+type+teacher+filename;
     let id = sha256(code).toString();
-    pool.query(
-        `INSERT INTO courses VALUES(?,?,?,?,?,?,?,?)`,
-        [id, year, course, teacher, type, filename, grade, '0'],
-        (err, result) =>{
-            if(err) console.log(err);
-        }
-    );
+    if(type==="課本" || type==="講義"){
+        pool.query(
+            `INSERT INTO textbooks VALUES(?,?,?,?,?,?,?,?)`,
+            [id, year, course, teacher, type, filename, grade, '0'],
+            (err, result) =>{
+                if(err) console.log(err);
+            }
+        );
+    }
+    else{
+        pool.query(
+            `INSERT INTO courses VALUES(?,?,?,?,?,?,?,?)`,
+            [id, year, course, teacher, type, filename, grade, '0'],
+            (err, result) =>{
+                if(err) console.log(err);
+            }
+        );
+    }
     // pool.query(
     //     `INSERT INTO teachers (teacher)
     //     SELECT DISTINCT teacher

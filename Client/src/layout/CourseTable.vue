@@ -1,35 +1,47 @@
 <template>
 <div style="padding-right:10px; margin:2rem;">
   <div id="back">
-    <router-link to="/exams/" tag="a">{{grade}}</router-link><span>/{{course}}</span>
+    <a @click="$router.go(-1)">{{grade}}</a><span>/{{course}}</span>
   </div>
-  <div class="tbl-header">
-    <table>
-      <tr>
-        <th class="head">年度</th>
-        <th class="head">類別</th>
-        <th class="head">老師</th>
-        <th class="head">提供者</th>
-        <th class="head">檔名</th>
-      </tr>
-    </table>
+
+  <div v-if="!courses || !courses.length">
+    <div>
+      <br>
+      <h3 id="notest">此科目暫無此課程考古題，歡迎點擊右上角上傳</h3>
+    </div>
   </div>
-  <div class="tbl-content">
-    <table>
-      <tbody>
-        <tr v-for="c in this.courses" 
-          v-bind:key="c.id"
-          class="test"
-          v-on:click="Download(c.id)">
-          <td>{{c.year}}</td>
-          <td>{{c.type}}</td>
-          <td>{{c.teacher}}</td>
-          <td>某人</td>
-          <td>{{c.filename}}</td>
+
+  <div v-else>
+    <div class="tbl-header">
+      <table>
+        <tr>
+          <th class="head">年度</th>
+          <th class="head">類別</th>
+          <th class="head">老師</th>
+          <th class="head">提供者</th>
+          <th class="head">檔名</th>
         </tr>
-      </tbody>
-    </table>
+      </table>
+    </div>
+    <div class="tbl-content">
+      <table>
+        <tbody>
+          <tr v-for="c in this.courses" 
+            v-bind:key="c.id"
+            class="test"
+            v-on:click="Download(c.id)">
+            <td>{{c.year}}</td>
+            <td>{{c.type}}</td>
+            <td>{{c.teacher}}</td>
+            <td>{{c.contributor}}</td>
+            <td>{{c.filename}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+
+  
 </div>
 </template>
 
@@ -58,6 +70,7 @@ export default{
     async ShowExamTable(c){
       const response = await CourseService.course(c);
       this.courses = response.data;
+      console.log(this.courses);
     }
   }
 } 
@@ -100,7 +113,16 @@ td{
   font-size: large;
 }
 
+#back a{
+  color: #5e72e4;
+}
+
 #back a:hover{
+  cursor: pointer;
   text-decoration: underline;
+}
+
+#notest{
+  color: #f5365c;
 }
 </style>

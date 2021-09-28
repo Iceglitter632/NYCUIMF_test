@@ -19,5 +19,11 @@ module.exports = {
   css: {
     // Enable CSS source maps.
     sourceMap: process.env.NODE_ENV !== 'production'
-  }
+  },
+  // devServer:{
+  //   public: '140.113.65.6:8083',
+  //   https: false,
+  //   hotOnly: false,
+  //   disableHostCheck: true,
+  // }
 };
